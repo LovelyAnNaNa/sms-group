@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>home</title>
+</head>
+<body>
+
+<h1>登录成功</h1>
+
+<div sec:authorize="hasPermission('/admin','w')">
+    <a href="/admin">检测ROLE_ADMIN角色</a>
+</div>
+
+<a  href="/user">检测ROLE_USER角色</a>
+
+<button onclick="window.location.href='/logout'">退出登录</button>
+</body>
+</html>

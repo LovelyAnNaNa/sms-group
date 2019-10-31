@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<!--[if IE 9]>         <html class="no-js lt-ie10" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="en">
+	<!--<![endif]-->
+	<head>
+		<meta charset="utf-8">
+
+		<title>AppUI - Web App Bootstrap Admin Template</title>
+
+		<meta name="description" content="AppUI is a Web App Bootstrap Admin Template created by pixelcave and published on Themeforest">
+		<meta name="author" content="pixelcave">
+		<meta name="robots" content="noindex, nofollow">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<!-- Icons -->
+		<!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+		<link rel="shortcut icon" href="img/favicon.png">
+		<link rel="apple-touch-icon" href="img/icon57.png" sizes="57x57">
+		<link rel="apple-touch-icon" href="img/icon72.png" sizes="72x72">
+		<link rel="apple-touch-icon" href="img/icon76.png" sizes="76x76">
+		<link rel="apple-touch-icon" href="img/icon114.png" sizes="114x114">
+		<link rel="apple-touch-icon" href="img/icon120.png" sizes="120x120">
+		<link rel="apple-touch-icon" href="img/icon144.png" sizes="144x144">
+		<link rel="apple-touch-icon" href="img/icon152.png" sizes="152x152">
+		<link rel="apple-touch-icon" href="img/icon180.png" sizes="180x180">
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/plugins.css">
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/index.css" />
+		<script src="js/vendor/modernizr-3.3.1.min.js"></script>
+	</head>
+	<body>
+		<div id="main-container">
+			<header class="navbar navbar-inverse navbar-fixed-top">
+				<ul class="nav navbar-nav-custom">
+					<li>
+						<a href="javascript:void(0)" onclick="App.sidebar('toggle-sidebar');this.blur();">
+							<i class="fa fa-ellipsis-v fa-fw animation-fadeInRight" id="sidebar-toggle-mini"></i>
+							<i class="fa fa-bars fa-fw animation-fadeInRight" id="sidebar-toggle-full"></i>
+						</a>
+					</li>
+					<li class="hidden-xs animation-fadeInQuick">
+						<a href=""><strong>WELCOME</strong></a>
+					</li>
+				</ul>
+				<ul class="nav navbar-nav-custom pull-right">
+					<li>
+						<form action="page_ready_search_results.html" method="post" class="navbar-form-custom">
+							<input type="text" id="top-search" name="top-search" class="form-control" placeholder="Search..">
+						</form>
+					</li>
+					<li>
+						<a href="javascript:void(0)" onclick="App.sidebar('toggle-sidebar-alt');this.blur();">
+							<i class="gi gi-settings"></i>
+						</a>
+					</li>
+					<li class="dropdown">
+						<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+							<img src="img/placeholders/avatars/avatar9.jpg" alt="avatar">
+						</a>
+						<ul class="dropdown-menu dropdown-menu-right">
+							<li class="dropdown-header">
+								<strong>ADMINISTRATOR</strong>
+							</li>
+							<li>
+								<a href="page_app_email.html">
+									<i class="fa fa-inbox fa-fw pull-right"></i>
+									Inbox
+								</a>
+							</li>
+							<li>
+								<a href="page_app_social.html">
+									<i class="fa fa-pencil-square fa-fw pull-right"></i>
+									Profile
+								</a>
+							</li>
+							<li>
+								<a href="page_app_media.html">
+									<i class="fa fa-picture-o fa-fw pull-right"></i>
+									Media Manager
+								</a>
+							</li>
+							<li class="divider">
+							<li>
+							<li>
+								<a href="javascript:void(0)" onclick="App.sidebar('toggle-sidebar-alt');">
+									<i class="gi gi-settings fa-fw pull-right"></i>
+									Settings
+								</a>
+							</li>
+							<li>
+								<a href="page_ready_lock_screen.html">
+									<i class="gi gi-lock fa-fw pull-right"></i>
+									Lock Account
+								</a>
+							</li>
+							<li>
+								<a href="page_ready_login.html">
+									<i class="fa fa-power-off fa-fw pull-right"></i>
+									Log out
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</header>
+			<div id="page-content" style="margin-top:50px ;">
+				<div class="row">
+					<div class="col-sm-6 col-lg-3">
+						<a href="javascript:void(0)" class="widget">
+							<div class="widget-content widget-content-mini text-right clearfix">
+								<div class="widget-icon pull-left themed-background">
+									<i class="gi gi-cardio text-light-op"></i>
+								</div>
+								<h2 class="widget-heading h3">
+									<strong>#<span data-toggle="counter" data-to="2835"></span>33845</strong>
+								</h2>
+								<span class="text-muted">昨天营销数据</span>
+							</div>
+						</a>
+					</div>
+					<div class="col-sm-6 col-lg-3">
+						<a href="javascript:void(0)" class="widget">
+							<div class="widget-content widget-content-mini text-right clearfix">
+								<div class="widget-icon pull-left themed-background-success">
+									<i class="gi gi-user text-light-op"></i>
+								</div>
+								<h2 class="widget-heading h3 text-success">
+									<strong>+ <span>3306</span></strong>
+								</h2>
+								<span class="text-muted">昨天接口数据</span>
+							</div>
+						</a>
+					</div>
+					<div class="col-sm-6 col-lg-3">
+						<a href="javascript:void(0)" class="widget">
+							<div class="widget-content widget-content-mini text-right clearfix">
+								<div class="widget-icon pull-left themed-background-warning">
+									<i class="gi gi-briefcase text-light-op"></i>
+								</div>
+								<h2 class="widget-heading h3 text-warning">
+									<strong>+ <span>25351315</span></strong>
+								</h2>
+								<span class="text-muted">今天营销数据</span>
+							</div>
+						</a>
+					</div>
+					<div class="col-sm-6 col-lg-3">
+						<a href="javascript:void(0)" class="widget">
+							<div class="widget-content widget-content-mini text-right clearfix">
+								<div class="widget-icon pull-left themed-background-danger">
+									<i class="gi gi-wallet text-light-op"></i>
+								</div>
+								<h2 class="widget-heading h3 text-danger">
+									<strong>$ <span>25356</span></strong>
+								</h2>
+								<span class="text-muted">今天接口数据</span>
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6 col-lg-8">
+						<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+						<div class="page-content d-flex align-items-stretch">
+							<section class="charts">
+								<div class="card-header d-flex align-items-center">
+									<h3 class="h4">Bar Chart Example</h3>
+								</div>
+								<div class="card-body">
+									<canvas id="barChartExample"></canvas>
+								</div>
+							</section>
+						</div>
+					</div>
+					<div class="col-sm-6 col-lg-4">
+						<a href="message.html" class="widget">
+							<div class="widget-content border-bottom text-dark">
+								<span class="pull-right text-muted">管理者</span>
+								本周
+							</div>
+							<div class="widget-content border-bottom text-center themed-background-muted">
+								<img src="img/placeholders/avatars/avatar13@2x.jpg" alt="avatar" class="img-circle img-thumbnail img-thumbnail-avatar-2x">
+								<h2 class="widget-heading h3 text-dark">姓名</h2>
+								<span class="text-muted">
+									<strong>地区:</strong>,职位
+								</span>
+							</div>
+							<div class="widget-content widget-content-full-top-bottom">
+								<div class="row text-center">
+									<div class="col-xs-6 push-inner-top-bottom border-right">
+										<h3 class="widget-heading"><i class="gi gi-briefcase text-dark push-bit"></i> <br><small>35 Projects</small></h3>
+									</div>
+									<div class="col-xs-6 push-inner-top-bottom">
+										<h3 class="widget-heading"><i class="gi gi-heart_empty text-dark push-bit"></i> <br><small>5.3k Likes</small></h3>
+									</div>
+								</div>
+							</div>
+						</a>
+						<div class="row" id="row">
+							<p>短信测试</p>
+							<div class="layui-input-inline" id="phone_input">
+								<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入手机号码" class="layui-input">
+							</div>
+							<div class="layui-input-inline">
+								<input type="button" value="获取验证码" lay-submit="submit" lay-filter="formDemo"id="getCode" style="color:#49C205;background:white; width: 130px;border: 1px seashell solid;border-radius: 30px;" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+		</div>
+		<script src="../js/jquery-3.4.1.min.js"></script>
+		<script src="js/vendor/bootstrap.min.js"></script>
+		<script src="js/plugins.js"></script>
+		<script src="js/app.js"></script>
+		<script src="../assembly/zylVerificationCode/zylVerificationCode.js"></script>
+		<script src="js/pages/readyDashboard.js"></script>
+		<script src="js/vendor/Chart.min.js"></script>
+		<script src="js/vendor/charts-custom.js"></script>
+		<script src="../layui/layui.js"></script>
+		<script>
+			layui.use('element', function() {
+				var element = layui.element;
+				form.verify({
+					phone: [/^1\d{10}$/, "请输入正确的手机号"]
+				})
+				form.on('submit(formDemo)', function(data){
+				layer.msg(JSON.stringify(data.field));
+					return false;
+				});
+			});
+		</script>
+	</body>
+</html>
