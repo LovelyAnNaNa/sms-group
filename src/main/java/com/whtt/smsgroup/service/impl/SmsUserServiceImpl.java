@@ -1,10 +1,14 @@
 package com.whtt.smsgroup.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.whtt.smsgroup.entity.pojo.SmsRole;
 import com.whtt.smsgroup.entity.pojo.SmsUser;
 import com.whtt.smsgroup.mapper.SmsUserMapper;
+import com.whtt.smsgroup.service.SmsRoleService;
 import com.whtt.smsgroup.service.SmsUserService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.whtt.smsgroup.util.SecurityUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,6 +26,21 @@ public class SmsUserServiceImpl extends ServiceImpl<SmsUserMapper, SmsUser> impl
 
     @Resource
     private SmsUserMapper userMapper;
+    @Autowired
+    private SmsRoleService roleService;
+
+    @Override
+    public Integer saveNormalUser(SmsUser newUser) {
+        //密码加密
+        String oldPassword = newUser.getUserPassword();
+        newUser.setUserPassword(SecurityUtil.encryptPassword(oldPassword));
+        //获取最基础的角色信息
+        SmsRole normalRole = roleService.getNormalRole();
+        newUser.setRoleId(normalRole.getId());
+
+        int result = userMapper.insert(newUser);
+        return result;
+    }
 
     @Override
     public SmsUser getByName(String username) {

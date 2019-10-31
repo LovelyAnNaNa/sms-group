@@ -2,6 +2,7 @@ package com.whtt.smsgroup.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.whtt.smsgroup.config.Constants;
 import com.whtt.smsgroup.entity.pojo.SmsRole;
 import com.whtt.smsgroup.mapper.SmsRoleMapper;
 import com.whtt.smsgroup.service.SmsRoleService;
@@ -22,6 +23,13 @@ public class SmsRoleServiceImpl extends ServiceImpl<SmsRoleMapper, SmsRole> impl
 
     @Resource
     private SmsRoleMapper roleMapper;
+
+    @Override
+    public SmsRole getNormalRole() {
+        QueryWrapper<SmsRole> roleQueryWrapper = new QueryWrapper<>();
+        roleQueryWrapper.eq("role_name", Constants.NORMAL_ROLE_NAME);
+        return roleMapper.selectOne(roleQueryWrapper);
+    }
 
     @Override
     public SmsRole getByName(String roleName) {

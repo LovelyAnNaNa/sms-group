@@ -73,13 +73,13 @@ public class SmsUserController {
         if(!phoneCode.equals(verificationCode)){
             return CommonResult.failed("手机验证码不正确!");
         }
-        //密码加密
+
         String oldPassword = newUser.getUserPassword();
-        newUser.setUserPassword(SecurityUtil.encryptPassword(oldPassword));
-        boolean result = userService.save(newUser);
+        //保存用户信息
+        Integer result = userService.saveNormalUser(newUser);
 
         //如果保存成功自动登录
-        if(result){
+        if(result > 0){
             ModelAndView mav = new ModelAndView();
             try {
                 System.out.println(newUser.getUserName() + "     " + newUser.getUserPassword());
@@ -160,7 +160,7 @@ public class SmsUserController {
 
     @ResponseBody
     @RequestMapping(value = "/test")
-    @PreAuthorize("hasPermission('/admin','b')")
+    @PreAuthorize("hasPermission('','123')")
     public Object test(){
         return CommonResult.success("成功");
     }

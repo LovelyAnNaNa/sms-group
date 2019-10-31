@@ -47,7 +47,7 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
             List<SmsRoleMenu> roleMenuList = roleMenuService.listByRoleId(roleId);
             for (SmsRoleMenu roleMenu : roleMenuList) {
                 SmsMenu menu = menuService.getById(roleMenu.getMenuId());
-                if(menu.getHref().equals(targetUrl) ){
+                if(menu.getPermission().equals(targetPermission) ){
                     return true;
                 }
             }

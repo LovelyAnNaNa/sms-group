@@ -15,4 +15,6 @@ public class Constants {
     public static final Integer TENECTNT_CODE_TEMPLATE_ID = 412555;
 
     public static final String PHONE_CODE = "phone_code";
+
+    public static final String NORMAL_ROLE_NAME = "normal_user";
 }

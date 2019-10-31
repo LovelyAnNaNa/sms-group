@@ -12,6 +12,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Set;
@@ -41,13 +42,19 @@ public class SmsUser extends UserBase<SmsUser> {
     /**
      * 用户名
      */
+    @NotBlank(message = "用户名不能为空")
     private String userName;
 
+    /**
+     * 用户密码
+     */
+    @NotBlank(message = "密码不能为空")
     private String userPassword;
 
     /**
-     * 手机密码
+     * 手机号
      */
+    @NotBlank(message = "手机号不能为空")
     private String phone;
 
     /**

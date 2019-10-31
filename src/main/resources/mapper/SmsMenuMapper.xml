@@ -28,4 +28,15 @@
         id, name, parent_id, level, parent_ids, sort, href, target, icon, bg_color, is_show, permission, create_id, create_time, update_id, update_time, remarks
     </sql>
 
+    <!--  获取用户的菜单列表  -->
+    <select id="getUserMenu" resultType="com.whtt.smsgroup.entity.pojo.SmsMenu">
+        select menu.*
+        from sms_menu menu
+        left join sms_role_menu role_menu on role_menu.menu_id = menu.id
+        left join sms_role role on role.id = role_menu.role_id
+        left join sms_user_role user_role on user_role.role_id = role.id
+        left join sms_user on sms_user.id = user_role.user_id
+        where sms_user.id = 17 and menu.is_show = 1
+    </select>
+
 </mapper>

@@ -13,5 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface SmsUserService extends IService<SmsUser> {
 
+    Integer saveNormalUser(SmsUser newUser);
+
     SmsUser getByName(String username);
 }

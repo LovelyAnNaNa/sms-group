@@ -1,7 +1,10 @@
 package com.whtt.smsgroup.mapper;
 
-import com.whtt.smsgroup.entity.pojo.SmsMenu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.whtt.smsgroup.entity.pojo.SmsMenu;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface SmsMenuMapper extends BaseMapper<SmsMenu> {
 
+    List<SmsMenu> getUserMenu(@Param("userId") Integer userId);
 }

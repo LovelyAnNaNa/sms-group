@@ -13,5 +13,7 @@ import com.whtt.smsgroup.entity.pojo.SmsRole;
  */
 public interface SmsRoleService extends IService<SmsRole> {
 
+    SmsRole getNormalRole();
+
     SmsRole getByName(String roleName);
 }
