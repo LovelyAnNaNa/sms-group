@@ -1,7 +1,10 @@
 package com.whtt.smsgroup.service;
 
-import com.whtt.smsgroup.entity.pojo.SmsMenu;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.whtt.smsgroup.entity.pojo.SmsMenu;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Collection;
 
 /**
  * <p>
@@ -13,4 +16,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface SmsMenuService extends IService<SmsMenu> {
 
+    //根据用户id获取用户的菜单列表
+    Collection<SmsMenu> getUserMenu(@Param("userId") Integer userId);
 }

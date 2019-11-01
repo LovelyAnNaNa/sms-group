@@ -13,7 +13,8 @@ import com.whtt.smsgroup.entity.pojo.SmsRole;
  */
 public interface SmsRoleService extends IService<SmsRole> {
 
-    SmsRole getNormalRole();
+    //根据id删除一条角色信息
+    Integer deleteById(Integer roleId);
 
     SmsRole getByName(String roleName);
 }

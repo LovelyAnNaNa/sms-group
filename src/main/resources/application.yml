@@ -56,6 +56,6 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     cache-enabled: false
 
-pagehelper:
-  dialect: mysql
+#pagehelper:
+#  dialect: mysql
 

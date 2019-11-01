@@ -2,10 +2,18 @@ package com.whtt.smsgroup.entity.pojo;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * <p>
@@ -28,6 +36,7 @@ public class SmsRole extends Model<SmsRole> {
     /**
      * 角色名字
      */
+    @NotBlank(message = "角色名称不能为空")
     private String roleName;
 
 
@@ -40,4 +49,14 @@ public class SmsRole extends Model<SmsRole> {
         return null;
     }
 
+    public void validateParams() {
+        //调用JSR303验证工具，校验参数
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        Set<ConstraintViolation<SmsRole>> violations = validator.validate(this);
+        Iterator<ConstraintViolation<SmsRole>> iter = violations.iterator();
+        if (iter.hasNext()) {
+            //需要springmvc捕获全局异常
+            throw new ConstraintViolationException(violations);
+        }
+    }
 }

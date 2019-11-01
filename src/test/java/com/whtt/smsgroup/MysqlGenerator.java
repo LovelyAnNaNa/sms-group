@@ -20,7 +20,7 @@ import java.util.*;
  */
 public class MysqlGenerator {
     private static String authorName = "wbh";     //作者
-    private static String[] table = {"sms_menu","sms_role","sms_role_menu","sms_user","sms_user_role"};             //table名字
+    private static String[] table = {"sms_config"};             //table名字
     private static String prefix = "";                     //table前缀
     private static File file = new File("");
     private static String path = file.getAbsolutePath();

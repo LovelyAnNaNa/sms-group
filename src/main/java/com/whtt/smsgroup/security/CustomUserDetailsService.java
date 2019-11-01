@@ -10,7 +10,6 @@ import com.whtt.smsgroup.service.SmsUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -45,6 +44,10 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UserLoginException("用户名不存在");
         }
 
+        if(userInfo.getStatus() == 1){
+            throw new UserLoginException("账号已被禁用");
+        }
+
         //添加角色
         List<SmsUserRole> userRoleList = userRoleService.listByUserId(userInfo.getId());
         if (userRoleList != null && userRoleList.size() > 0) {
@@ -54,6 +57,8 @@ public class CustomUserDetailsService implements UserDetailsService {
             });
         }
 
-        return new User(userInfo.getUserName(), userInfo.getUserPassword(),authorities);
+        CustomUser loginUser = new CustomUser(userInfo.getUserName(), userInfo.getUserPassword(), authorities);
+        loginUser.setId(userInfo.getId());
+        return loginUser;
     }
 }

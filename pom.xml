@@ -41,11 +41,11 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
-        <!--                <dependency>-->
-        <!--                    <groupId>org.apache.velocity</groupId>-->
-        <!--                    <artifactId>velocity-engine-core</artifactId>-->
-        <!--                    <version>2.1</version>-->
-        <!--                </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.apache.velocity</groupId>-->
+        <!--            <artifactId>velocity-engine-core</artifactId>-->
+        <!--            <version>2.1</version>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -74,6 +74,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <!--    避免与腾讯云SDK冲突       -->
             <exclusions>
                 <exclusion>
                     <groupId>com.vaadin.external.google</groupId>
@@ -128,12 +129,12 @@
             <version>1.2.49</version>
         </dependency>
 
-        <!--MyBatis分页插件-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.github.pagehelper</groupId>-->
-        <!--            <artifactId>pagehelper-spring-boot-starter</artifactId>-->
-        <!--            <version>1.2.10</version>-->
-        <!--        </dependency>-->
+        <!--MyBatis分页插件 与mybatisplus版本关联,mybatisplus版本升级,pagehelper版本也需升级 -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.12</version>
+        </dependency>
 
 
         <!--   腾讯短信SDK     -->
@@ -194,6 +195,14 @@
             <artifactId>okhttp</artifactId>
             <version>4.2.2</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.11.3</version>
+        </dependency>
+
 
     </dependencies>
 

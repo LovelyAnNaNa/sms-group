@@ -1,13 +1,22 @@
 package com.whtt.smsgroup.sms;
 
-import com.github.qcloudsms.*;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.github.qcloudsms.SmsMultiSender;
+import com.github.qcloudsms.SmsMultiSenderResult;
+import com.github.qcloudsms.SmsSingleSender;
+import com.github.qcloudsms.SmsSingleSenderResult;
 import com.github.qcloudsms.httpclient.HTTPException;
 import com.whtt.smsgroup.config.Constants;
+import com.whtt.smsgroup.util.HttpUtils;
 import com.whtt.smsgroup.util.RandomUtil;
+import com.whtt.smsgroup.util.Sha256;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
+import org.jsoup.Connection;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * @Auther: wbh
@@ -19,19 +28,42 @@ public class TencentSMS {
 
     String[] phoneNumbers = {"18637736725"};
 
-    //发送验证码
+    //群发短信
+    public void massCode(String[] phoneNumbers,Integer templateId,String code,String sign,String extend,String ext) {
+        try {
+            String[] params = {code};
+            SmsMultiSender msender = new SmsMultiSender(Constants.TENCENT_SMS_SDK_ID, Constants.TENCENT_SMS_SDK_KEY);
+            //群发短信
+            SmsMultiSenderResult result =  msender.sendWithParam("86", phoneNumbers,
+                    templateId, params, sign, extend, ext);
+            //获取群发结果
+            ArrayList<SmsMultiSenderResult.Detail> details = result.details;
+            //遍历群发结果
+            details.forEach(d -> {
+
+            });
+
+            System.out.println(result);
+        } catch (HTTPException e) {
+            // HTTP 响应码错误
+            e.printStackTrace();
+        } catch (JSONException e) {
+            // JSON 解析错误
+            e.printStackTrace();
+        } catch (IOException e) {
+            // 网络 IO 错误
+            e.printStackTrace();
+        }
+    }
+
+    //单发验证码
     public static boolean singleSendCode(String phone,Integer templateId,String code,String smsSign,String extend,String ext) throws Exception{
         try {
-//            Integer templateId = 412555;
             //拼接参数
             String[] params = {code};
-//            String smsSign = "appkey=" + Constants.TENCENT_SMS_SDK_KEY +  "&random=" + RandomUtil.getRandmonNumber(10) + "&time=" + RandomUtil.getCurrenMillis() + "&mobile=" + phone;
-//            smsSign = Sha256.getSHA256(smsSign);
-//            smsSign = "网慧天拓";
             SmsSingleSender  msender = new SmsSingleSender(Constants.TENCENT_SMS_SDK_ID, Constants.TENCENT_SMS_SDK_KEY);
             //ext再返回结果中会返回回来
             SmsSingleSenderResult result =  msender.sendWithParam("86", phone, templateId, params, smsSign, extend, ext);
-//            System.out.println(result);
             if(result.result == 0){
                 log.info("给{}发送模板为{}的消息成功",phone,templateId);
                 return true;
@@ -49,57 +81,43 @@ public class TencentSMS {
 
         return false;
     }
-    
-    public void testSMSPull() throws Exception{
+
+    /**
+     * 获取腾讯云购买的短信套餐包信息
+     * @return
+     */
+    public JSONObject getPackageInformation(){
+        Integer randomNum = Integer.valueOf(RandomUtil.getRandmonNumber(5));
+        String url = "https://yun.tim.qq.com/v5/tlssmssvr/getsmspackages?sdkappid=" + Constants.TENCENT_SMS_SDK_ID + "&random=" + randomNum;
+        //拼接请求所需的签名
+        String smsSign = "appkey=" + Constants.TENCENT_SMS_SDK_KEY +  "&random=" + randomNum + "&time=" + RandomUtil.getCurrenMillis();
+        //签名加密
+        smsSign = Sha256.getSHA256(smsSign);
+        //请求所需参数
+        JSONObject params = new JSONObject();
+        params.put("offset",0);
+        params.put("length",1);
+        params.put("sig",smsSign);
+        params.put("time",Integer.valueOf(RandomUtil.getCurrenMillis()));
+        Connection.Response response = null;
         try {
-            // Note: 短信拉取功能需要联系腾讯云短信技术支持（QQ：3012203387）开通权限
-            int maxNum = 10;  // 单次拉取最大量
-            SmsStatusPuller spuller = new SmsStatusPuller(Constants.TENCENT_SMS_SDK_ID, Constants.TENCENT_SMS_SDK_KEY);
-
-            // 拉取短信回执
-            SmsStatusPullCallbackResult callbackResult = spuller.pullCallback(maxNum);
-            System.out.println(callbackResult);
-
-            // 拉取回复，国际/港澳台短信不支持回复功能
-            SmsStatusPullReplyResult replyResult = spuller.pullReply(maxNum);
-            System.out.println(replyResult);
-        } catch (HTTPException e) {
-            // HTTP 响应码错误
-            e.printStackTrace();
-        } catch (JSONException e) {
-            // JSON 解析错误
-            e.printStackTrace();
+            //发送请求获取套餐包信息
+            response = HttpUtils.post(url, params.toJSONString());
         } catch (IOException e) {
-            // 网络 IO 错误
             e.printStackTrace();
+            return null;
         }
-    }
-    
-    public void testGetPhoneStatus() throws Exception{
-        try {
-            int beginTime = Integer.valueOf(RandomUtil.getCurrenMillis()) - 10000;  // 开始时间（UNIX timestamp）
-            int endTime = Integer.valueOf(RandomUtil.getCurrenMillis());    // 结束时间（UNIX timestamp）
-            int maxNum = 10;             // 单次拉取最大量
-            SmsMobileStatusPuller mspuller = new SmsMobileStatusPuller(Constants.TENCENT_SMS_SDK_ID,Constants.TENCENT_SMS_SDK_KEY);
-
-            // 拉取短信回执
-            SmsStatusPullCallbackResult callbackResult = mspuller.pullCallback("86",
-                    phoneNumbers[0], beginTime, endTime, maxNum);
-            System.out.println(callbackResult);
-
-            // 拉取回复，国际/港澳台短信不支持回复功能
-            SmsStatusPullReplyResult replyResult = mspuller.pullReply("86",
-                    phoneNumbers[0], beginTime, endTime, maxNum);
-            System.out.println(replyResult);
-        } catch (HTTPException e) {
-            // HTTP 响应码错误
-            e.printStackTrace();
-        } catch (JSONException e) {
-            // JSON 解析错误
-            e.printStackTrace();
-        } catch (IOException e) {
-            // 网络 IO 错误
-            e.printStackTrace();
+        //获取返回的购买的套餐包信息
+        String resultStr = response.body().toString();
+        System.out.println(resultStr);
+        //转换为JSON字符串
+        JSONObject resultJson = JSON.parseObject(resultStr);
+        //获取购买的套餐包总数
+        Integer total = resultJson.getInteger("total");
+        if(total == null){
+            return null;
         }
+        return resultJson;
     }
+
 }

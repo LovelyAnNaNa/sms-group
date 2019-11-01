@@ -28,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotBlank;
+import java.util.regex.Pattern;
 
 /**
  * <p>
@@ -74,6 +75,13 @@ public class SmsUserController {
             return CommonResult.failed("手机验证码不正确!");
         }
 
+        //根据用户名获取用户,判断用户名是否已经注册过
+        SmsUser dbUser = userService.getByName(newUser.getUserName());
+        if(dbUser != null){
+            return CommonResult.failed("该用户名已经有人注册过了!");
+        }
+
+
         String oldPassword = newUser.getUserPassword();
         //保存用户信息
         Integer result = userService.saveNormalUser(newUser);
@@ -88,7 +96,6 @@ public class SmsUserController {
                 token.setDetails(new WebAuthenticationDetails(request));
                 Authentication authenticatedUser = authenticationManager.authenticate(token);
                 SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
-                int a = 1 / 0 ;
                 session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,SecurityContextHolder.getContext());
                 //如果自动登录成功跳转首页
                 mav.setViewName("home");
@@ -132,6 +139,12 @@ public class SmsUserController {
     @RequestMapping(value = "/getCode")
     public Object getCode(@RequestParam @NotBlank(message = "手机号码不能为空") String phone,
                           HttpSession session) {
+        //校验手机格式
+        Pattern pattern = Pattern.compile("^[1]\\d{10}$");
+        if(!pattern.matcher(phone).matches()){
+            return CommonResult.failed("手机号格式不正确!");
+        }
+
         //验证码
         String randomCode = RandomUtil.getRandmonNumber(6);
         try {
