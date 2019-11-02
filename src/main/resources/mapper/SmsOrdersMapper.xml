@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whtt.smsgroup.mapper.SmsOrdersMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.whtt.smsgroup.entity.pojo.SmsOrders">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="phone" property="phone" />
+        <result column="template_id" property="templateId" />
+        <result column="params" property="params" />
+        <result column="result_msg" property="resultMsg" />
+        <result column="pre_total" property="preTotal" />
+        <result column="success_total" property="successTotal" />
+        <result column="failed_total" property="failedTotal" />
+        <result column="order_time" property="orderTime" />
+        <result column="finish_time" property="finishTime" />
+        <result column="fee_total" property="feeTotal" />
+        <result column="standby_application1" property="standbyApplication1" />
+        <result column="standby_application2" property="standbyApplication2" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_id, phone, template_id, params, result_msg, pre_total, success_total, failed_total, order_time, finish_time, fee_total, standby_application1, standby_application2
+    </sql>
+
+</mapper>

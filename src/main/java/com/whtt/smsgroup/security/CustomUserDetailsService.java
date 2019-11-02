@@ -58,7 +58,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
 
         CustomUser loginUser = new CustomUser(userInfo.getUserName(), userInfo.getUserPassword(), authorities);
-        loginUser.setId(userInfo.getId());
+        loginUser.setUserInfo(userInfo);
         return loginUser;
     }
 }

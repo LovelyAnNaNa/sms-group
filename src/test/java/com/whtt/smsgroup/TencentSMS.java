@@ -15,7 +15,9 @@ import org.jsoup.Connection;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @Auther: wbh
@@ -25,8 +27,51 @@ import java.util.HashMap;
 @Slf4j
 public class TencentSMS {
 
-    String[] phoneNumbers = {"18637736725","15839272879"};
+    String[] phoneNumbers = {"11111111111"};
+    String content = "q王qqqqqqqq";
 
+    @Test
+    public void testg() throws Exception{
+        String currentTime = System.currentTimeMillis() / 1000 + "";
+        System.out.println(currentTime);
+    }
+
+    @Test
+    public void httpSendTemplateSms(){
+        JSONObject params = new JSONObject();
+        //组装公共参数
+        params.put("Version","2019-07-11");
+        params.put("Action","SendSms");
+        List<String> phoneNumbers = Arrays.asList("18637736725");
+
+        //组装手机号参数
+        for (int i = 0; i < phoneNumbers.size(); i++) {
+            params.put("PhoneNumberSet." + i, phoneNumbers.get(i));
+        }
+
+        //模板ID
+        params.put("TemplateID",412555);
+        //appID
+        params.put("SmsSdkAppid",Constants.TENCENT_SMS_SDK_ID);
+        HashMap<String, String> templateParam = new HashMap<>();
+        templateParam.put("0","1234");
+        //组装模板参数
+        if(templateParam != null){
+            int templateParamIndex = 0;
+            for (String key : templateParam.keySet()) {
+                params.put("TemplateParamSet." + templateParam ,templateParam.get(key));
+                templateParamIndex++;
+            }
+        }
+        try {
+            Connection.Response response = HttpUtils.post("https://sms.tencentcloudapi.com/", params.toJSONString());
+            System.out.println(response.body().toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    
     @Test
     public void testSendMany() throws Exception{
         try {
@@ -138,7 +183,7 @@ public class TencentSMS {
         smsSign = Sha256.getSHA256(smsSign);
         JSONObject params = new JSONObject();
         params.put("offset",0);
-        params.put("length",1);
+        params.put("length",100);
         params.put("sig",smsSign);
         params.put("time",Integer.valueOf(RandomUtil.getCurrenMillis()));
         Connection.Response response = HttpUtils.post(url, params.toJSONString());

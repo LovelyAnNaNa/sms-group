@@ -19,10 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,6 +56,15 @@ public class SmsUserController {
         return CommonResult.success();
     }
 
+    /**
+     * 获取当前登录的用户信息
+     * @return
+     */
+    @ResponseBody
+    @PostMapping(value = "/userInfo")
+    public Object userInfo(){
+        return CommonResult.success(SecurityUtil.getLoginUser());
+    }
 
     //用户注册
     @ResponseBody

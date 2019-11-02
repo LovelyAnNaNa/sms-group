@@ -50,16 +50,16 @@
 				<legend>后台登录</legend>
 			</fieldset>
 			<div class="layui-row layui-col-space15">
-				<form class="layui-form" action="{:url('login/login')}" method="post">
+				<form class="layui-form" action="/smsUser/login" method="post">
 					<div class="layui-col-sm12 layui-col-md12">
 						<div class="layui-form-item">
-							<input type="text" name="username" lay-verify="required|userName" id="name" autocomplete="off" placeholder="账号" class="layui-input">
+							<input type="text" name="userName" lay-verify="required|userName" id="name" autocomplete="off" placeholder="账号" class="layui-input">
 							<i class="layui-icon layui-icon-username zyl_lofo_icon"></i>
 						</div>
 					</div>
 					<div class="layui-col-sm12 layui-col-md12">
 						<div class="layui-form-item">
-							<input type="password" name="password" lay-verify="required|pass" id="word" autocomplete="off" placeholder="密码" class="layui-input">
+							<input type="password" name="userPassword" lay-verify="required|pass" id="word" autocomplete="off" placeholder="密码" class="layui-input">
 							<i class="layui-icon layui-icon-password zyl_lofo_icon"></i>
 						</div>
 					</div>
@@ -75,8 +75,10 @@
 								<div class="zyl_lofo_vercode zylVerCode" onclick="zylVerCode()"></div>
 							</div>
 						</div>
+						<label><input type="checkbox" name="remember-me"/>自动登录</label>
 					</div>
 					<div class="layui-col-sm12 layui-col-md12">
+						<input type="submit" value="提交">
 						<button class="layui-btn layui-btn-fluid" lay-submit="submit" lay-filter="demo1" id="submit">立即登录</button>
 					</div>
 					<p><a href="/sysUser/registerPage" style="float: left;">注册</a></p>
@@ -125,12 +127,12 @@
 				//监听提交
 				form.on('submit(demo1)', function(data){
 					$.ajax({
-						url: "/sysUser/login",
+						url: "/smsUser/login",
 						type: data.form.method,
 						data: $(data.form).serialize(),
 						success: function (res) {
 							if (res.code === 200) {
-								window.location.href="/sysUser/home";
+								window.location.href="/smsUser/home";
 							}else {
 								layer.msg(res.msg);
 							}

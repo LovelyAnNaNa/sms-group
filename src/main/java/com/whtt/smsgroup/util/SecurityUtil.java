@@ -1,11 +1,11 @@
 package com.whtt.smsgroup.util;
 
 import com.whtt.smsgroup.entity.pojo.SmsUser;
+import com.whtt.smsgroup.security.CustomUser;
 import com.whtt.smsgroup.service.SmsUserService;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -27,10 +27,10 @@ public class SecurityUtil implements ApplicationRunner {
      */
     public static SmsUser getLoginUser(){
         //获取SpringSecurity中的用户信息
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CustomUser loginUser = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //根据用户名获取数据库中的user信息
-        SmsUser loginUser = userService.getByName(userDetails.getUsername());
-        return loginUser;
+//        SmsUser loginUser = userService.getByName(userDetails.getUsername());
+        return loginUser.getUserInfo();
     }
     
     /**

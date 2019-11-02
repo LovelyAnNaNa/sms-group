@@ -1,6 +1,7 @@
 package com.whtt.smsgroup.sms;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.qcloudsms.SmsMultiSender;
 import com.github.qcloudsms.SmsMultiSenderResult;
@@ -17,6 +18,9 @@ import org.jsoup.Connection;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Auther: wbh
@@ -28,22 +32,85 @@ public class TencentSMS {
 
     String[] phoneNumbers = {"18637736725"};
 
-    //群发短信
-    public void massCode(String[] phoneNumbers,Integer templateId,String code,String sign,String extend,String ext) {
+    public static void httpSendTemplateSms(List<String> phoneNumbers, Integer templateId, Map<String,Object> templateParam){
+        JSONObject params = new JSONObject();
+        //组装公共参数
+        params.put("Action","SendSms");
+        params.put("Version","2019-07-11");
+        //组装手机号参数
+        for (int i = 0; i < phoneNumbers.size(); i++) {
+            params.put("PhoneNumberSet." + i,phoneNumbers.get(i));
+        }
+        //模板ID
+        params.put("TemplateID",templateId);
+        //appID
+        params.put("SmsSdkAppid",Constants.TENCENT_SMS_SDK_ID);
+        //组装模板参数
+        if(templateParam != null){
+            int templateParamIndex = 0;
+            for (String key : templateParam.keySet()) {
+                params.put("TemplateParamSet." + templateParam ,templateParam.get(key));
+                templateParamIndex++;
+            }
+        }
         try {
-            String[] params = {code};
+            Connection.Response response = HttpUtils.post("https://sms.tencentcloudapi.com/", params.toJSONString());
+            response.body().toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    //腾讯云群发短信
+    public static Map<String,Object> massSend(String[] phoneNumbers, Integer templateId, String[] params, String sign, String extend, String ext) {
+        try {
             SmsMultiSender msender = new SmsMultiSender(Constants.TENCENT_SMS_SDK_ID, Constants.TENCENT_SMS_SDK_KEY);
             //群发短信
             SmsMultiSenderResult result =  msender.sendWithParam("86", phoneNumbers,
                     templateId, params, sign, extend, ext);
+            //发送结果map集合
+            HashMap<String, Object> resultMap = new HashMap<>();
+
+            //获取短信发送结果
+            Integer resultCode = result.result;
+            if(resultCode != 0){
+                resultMap.put("sendCode",-1);
+            }
+            resultMap.put("sendCode",0);
+
+            //发送成功条数,失败条数和总条数
+            int successCount = 0;
+            int failedCount = 0;
+            int totalCount = 0;
             //获取群发结果
             ArrayList<SmsMultiSenderResult.Detail> details = result.details;
+            //所有手机号的发送结果
+            JSONArray sendInfo = new JSONArray();
             //遍历群发结果
-            details.forEach(d -> {
+            for (SmsMultiSenderResult.Detail detail : details) {
+                JSONObject info = new JSONObject();
 
-            });
+                int detailCode = detail.result;
+                info.put("result",detailCode);
+                //result为0时短信为发送成功
+                if(detailCode == 0){
+                    successCount++;
+                }else{
+                    failedCount++;
+                }
+                info.put("errmsg",detail.errmsg);
+                info.put("fee",detail.fee);
+                sendInfo.add(info);
+                totalCount++;
+            }
 
-            System.out.println(result);
+            resultMap.put("totalCount",totalCount);
+            resultMap.put("successCount",successCount);
+            resultMap.put("failedCount",failedCount);
+            resultMap.put("result_msg",sendInfo.toJSONString());
+
+            return resultMap;
         } catch (HTTPException e) {
             // HTTP 响应码错误
             e.printStackTrace();
@@ -54,6 +121,7 @@ public class TencentSMS {
             // 网络 IO 错误
             e.printStackTrace();
         }
+        return null;
     }
 
     //单发验证码
@@ -86,7 +154,8 @@ public class TencentSMS {
      * 获取腾讯云购买的短信套餐包信息
      * @return
      */
-    public JSONObject getPackageInformation(){
+    public static JSONObject getPackageInformation(){
+        //获取一个五位的随机数
         Integer randomNum = Integer.valueOf(RandomUtil.getRandmonNumber(5));
         String url = "https://yun.tim.qq.com/v5/tlssmssvr/getsmspackages?sdkappid=" + Constants.TENCENT_SMS_SDK_ID + "&random=" + randomNum;
         //拼接请求所需的签名
@@ -96,7 +165,7 @@ public class TencentSMS {
         //请求所需参数
         JSONObject params = new JSONObject();
         params.put("offset",0);
-        params.put("length",1);
+        params.put("length",1000);
         params.put("sig",smsSign);
         params.put("time",Integer.valueOf(RandomUtil.getCurrenMillis()));
         Connection.Response response = null;
@@ -109,11 +178,11 @@ public class TencentSMS {
         }
         //获取返回的购买的套餐包信息
         String resultStr = response.body().toString();
-        System.out.println(resultStr);
         //转换为JSON字符串
         JSONObject resultJson = JSON.parseObject(resultStr);
         //获取购买的套餐包总数
         Integer total = resultJson.getInteger("total");
+        //从套餐包总数判断获取的信息是否正确
         if(total == null){
             return null;
         }

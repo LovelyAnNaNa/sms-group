@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whtt.smsgroup.mapper.NoteIntoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.whtt.smsgroup.entity.pojo.NoteInto">
+        <id column="id" property="id" />
+        <result column="platform_name" property="platformName" />
+        <result column="appid" property="appid" />
+        <result column="appkey" property="appkey" />
+        <result column="template_id" property="templateId" />
+        <result column="standby_application" property="standbyApplication" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, platform_name, appid, appkey, template_id, standby_application
+    </sql>
+
+</mapper>

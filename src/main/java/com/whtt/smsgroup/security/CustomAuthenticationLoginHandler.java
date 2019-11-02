@@ -44,9 +44,11 @@ public class CustomAuthenticationLoginHandler implements AuthenticationSuccessHa
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         log.info("用户{}登录系统",authentication);
-        response.setContentType("application/json;charset=UTF-8");
-        PrintWriter writer = response.getWriter();
-        CommonResult<Object> result = CommonResult.success();
-        writer.write(JSON.toJSONString(result));
+//        response.setContentType("application/json;charset=UTF-8");
+//        PrintWriter writer = response.getWriter();
+//        CommonResult<Object> result = CommonResult.success();
+//        writer.write(JSON.toJSONString(result));
+        //自动跳转页面
+        response.sendRedirect("/smsUser/home");
     }
 }

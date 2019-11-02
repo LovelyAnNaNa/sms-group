@@ -1,5 +1,6 @@
 package com.whtt.smsgroup.security;
 
+import com.whtt.smsgroup.entity.pojo.SmsUser;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,8 +18,11 @@ import java.util.Collection;
 @Setter
 @ToString
 public class CustomUser extends User {
-    //当前用户在数据库中的id
-    private Integer id;
+
+    /**
+     * 当前登录的用户信息
+     */
+    private SmsUser userInfo;
 
     public CustomUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
