@@ -4,17 +4,18 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.whtt.smsgroup.entity.pojo.SmsPlatform">
-        <id column="id" property="id" />
+        <id column="iid" property="iid" />
         <result column="platform_id" property="platformId" />
         <result column="platform_name" property="platformName" />
         <result column="total_amount" property="totalAmount" />
         <result column="usable_amount" property="usableAmount" />
         <result column="used_amount" property="usedAmount" />
+        <result column="default_use" property="defaultUse" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, platform_id, platform_name, total_amount, usable_amount, used_amount
+        iid, platform_id, platform_name, total_amount, usable_amount, used_amount, default_use
     </sql>
 
 </mapper>

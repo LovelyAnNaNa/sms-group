@@ -166,13 +166,23 @@ public class SmsUserController {
         return CommonResult.failed("验证码发送失败,请稍后重试");
     }
 
-    @RequestMapping(value = "/home")
+    @GetMapping(value = "/past")
+    public String past(){
+          return "past";
+    }
+
+    @GetMapping(value = "/home")
     public String home() {
         return "home";
     }
 
+    @GetMapping(value = "/index")
+    public String index(){
+          return "index";
+    }
+    
     //登录页
-    @RequestMapping(value = "/login")
+    @GetMapping(value = "/login")
     public String login() {
         return "login";
     }

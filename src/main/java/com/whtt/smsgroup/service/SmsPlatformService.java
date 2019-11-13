@@ -9,8 +9,12 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author wbh
- * @since 2019-11-01
+ * @since 2019-11-02
  */
 public interface SmsPlatformService extends IService<SmsPlatform> {
 
+    SmsPlatform getByPlatformId(Integer platformId);
+
+    //获取默认平台信息
+    SmsPlatform getDefaultPlatform();
 }

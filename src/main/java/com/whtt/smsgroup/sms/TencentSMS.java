@@ -1,5 +1,6 @@
 package com.whtt.smsgroup.sms;
 
+import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -19,7 +20,6 @@ import org.jsoup.Connection;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,36 +31,6 @@ import java.util.Map;
 public class TencentSMS {
 
     String[] phoneNumbers = {"18637736725"};
-
-    public static void httpSendTemplateSms(List<String> phoneNumbers, Integer templateId, Map<String,Object> templateParam){
-        JSONObject params = new JSONObject();
-        //组装公共参数
-        params.put("Action","SendSms");
-        params.put("Version","2019-07-11");
-        //组装手机号参数
-        for (int i = 0; i < phoneNumbers.size(); i++) {
-            params.put("PhoneNumberSet." + i,phoneNumbers.get(i));
-        }
-        //模板ID
-        params.put("TemplateID",templateId);
-        //appID
-        params.put("SmsSdkAppid",Constants.TENCENT_SMS_SDK_ID);
-        //组装模板参数
-        if(templateParam != null){
-            int templateParamIndex = 0;
-            for (String key : templateParam.keySet()) {
-                params.put("TemplateParamSet." + templateParam ,templateParam.get(key));
-                templateParamIndex++;
-            }
-        }
-        try {
-            Connection.Response response = HttpUtils.post("https://sms.tencentcloudapi.com/", params.toJSONString());
-            response.body().toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     //腾讯云群发短信
     public static Map<String,Object> massSend(String[] phoneNumbers, Integer templateId, String[] params, String sign, String extend, String ext) {
@@ -186,6 +156,15 @@ public class TencentSMS {
         if(total == null){
             return null;
         }
+        //解析套餐包信息
+        JSONArray dataJson = resultJson.getJSONArray("data");
+        dataJson.forEach(data -> {
+            //获取每个套餐包信息
+            JSONObject jsonData = (JSONObject) data;
+            String formTime = jsonData.getString("form_time");
+            String toTime = jsonData.getString("to_time");
+            DateUtil.parse(formTime,"yyyy-MM-dd HH:mm:ss");
+        });
         return resultJson;
     }
 

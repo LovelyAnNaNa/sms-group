@@ -27,6 +27,11 @@ public class SmsMenuServiceImpl extends ServiceImpl<SmsMenuMapper, SmsMenu> impl
     private SmsMenuMapper menuMapper;
 
     @Override
+    public List<String> getPermissionByRoleNames(List<String> roleNameList) {
+        return menuMapper.getPermissionByRoleNames(roleNameList);
+    }
+
+    @Override
     public Collection<SmsMenu> getUserMenu(Integer userId) {
         //获取用户的菜单信息
         List<SmsMenu> userMenuList = menuMapper.getUserMenu(userId);

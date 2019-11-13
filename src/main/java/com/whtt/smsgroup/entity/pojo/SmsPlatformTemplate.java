@@ -4,13 +4,12 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -18,7 +17,7 @@ import java.util.Date;
  * </p>
  *
  * @author wbh
- * @since 2019-11-01
+ * @since 2019-11-02
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -37,7 +36,7 @@ public class SmsPlatformTemplate extends Model<SmsPlatformTemplate> {
     /**
      * 平台id
      */
-    private Integer noteId;
+    private Integer platformId;
 
     /**
      * 模板id
@@ -57,8 +56,7 @@ public class SmsPlatformTemplate extends Model<SmsPlatformTemplate> {
     /**
      * 创建时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 创建人
@@ -68,8 +66,7 @@ public class SmsPlatformTemplate extends Model<SmsPlatformTemplate> {
     /**
      * 最后一次更改时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     /**
      * 最后一次更改用户id
@@ -79,7 +76,7 @@ public class SmsPlatformTemplate extends Model<SmsPlatformTemplate> {
 
     public static final String ID = "id";
 
-    public static final String NOTE_ID = "note_id";
+    public static final String PLATFORM_ID = "platform_id";
 
     public static final String TEMPLATE_ID = "template_id";
 

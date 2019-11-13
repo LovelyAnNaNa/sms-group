@@ -48,11 +48,15 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UserLoginException("账号已被禁用");
         }
 
-        //添加角色
+        //获取用户角色的映射
         List<SmsUserRole> userRoleList = userRoleService.listByUserId(userInfo.getId());
         if (userRoleList != null && userRoleList.size() > 0) {
-            userRoleList.forEach(e -> {
-                SmsRole role = roleService.getById(e.getRoleId());
+            //获取所有的角色信息
+            ArrayList<Integer> roleIds = new ArrayList<>(userRoleList.size());
+            userRoleList.forEach(userRole -> roleIds.add(userRole.getRoleId()));
+            Collection<SmsRole> roleList = roleService.listByIds(roleIds);
+            //添加角色名称
+            roleList.forEach(role -> {
                 authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
             });
         }

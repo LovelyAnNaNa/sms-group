@@ -12,8 +12,7 @@ import com.whtt.smsgroup.service.SmsOrdersService;
 import com.whtt.smsgroup.service.SmsPlatformService;
 import com.whtt.smsgroup.service.SmsPlatformTemplateService;
 import com.whtt.smsgroup.service.SmsUserService;
-import com.whtt.smsgroup.sms.MessageSend;
-import com.whtt.smsgroup.sms.TencentSMS;
+import com.whtt.smsgroup.sms.MessageSendUtil;
 import com.whtt.smsgroup.util.SecurityUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,14 +45,14 @@ public class SmsOrdersServiceImpl extends ServiceImpl<SmsOrdersMapper, SmsOrders
 
 
     @Override
-    public CommonResult onOrder(SmsOrders newOrder) {
+    public CommonResult addOrder(SmsOrders newOrder) {
 
         //下单时间
         newOrder.setOrderTime(new Date());
         //获取拼接后的模板内容
         SmsPlatformTemplate templateInfo = templateService.replaceParam(newOrder.getParamMap(), newOrder.getTemplateId());
         //获取拼接后的短信内容所需要的短信费
-        Integer fee = MessageSend.checkSmsFee(templateInfo.getContent(), templateInfo.getNoteId());
+        Integer fee = MessageSendUtil.checkSmsFee(templateInfo.getContent(), templateInfo.getPlatformId());
         //获取要发送的总条数
         int phoneCount = newOrder.getPhoneList().size();
         Integer totalFee = phoneCount * fee;
@@ -78,13 +77,19 @@ public class SmsOrdersServiceImpl extends ServiceImpl<SmsOrdersMapper, SmsOrders
             index++;
         }
 
-        Map<String, Object> resultMap = TencentSMS.massSend(phoneArray, Integer.valueOf(templateInfo.getTemplateId()), params, "new", "1", "");
+        //获取要使用的短信平台的信息
+        SmsPlatform usePlatform = platformService.getByPlatformId(templateInfo.getPlatformId());
+        //发送短信
+        Map<String, Object> resultMap = MessageSendUtil.sendSms(phoneArray,usePlatform.getPlatformId(),templateInfo.getTemplateId(),newOrder.getParamMap(),newOrder.getSignName());
+
         if(resultMap == null){
             return CommonResult.failed("发送失败,请稍后再试");
         }
+
         String sendCode = resultMap.get("sendCode").toString();
         if(StringUtils.isBlank(sendCode) || !"0".equals(sendCode)){
         }
+        //获取发送结果
         Integer failedCount = Integer.valueOf(resultMap.get("failedCount") + "");
         Integer successCount = Integer.valueOf(resultMap.get("successCount") + "");
         Integer totalCount = Integer.valueOf(resultMap.get("totalCount") + "");
@@ -102,10 +107,9 @@ public class SmsOrdersServiceImpl extends ServiceImpl<SmsOrdersMapper, SmsOrders
         newOrder.setUserId(loginUser.getId());
 
         //减去第三方平台剩余短信数量
-        SmsPlatform platform = platformService.getById(templateInfo.getNoteId());
-        platform.setUsableAmount(platform.getUsedAmount() - successCount);
-        platform.setUsedAmount(platform.getUsedAmount() + successCount);
-        platformService.updateById(platform);
+        usePlatform.setUsableAmount(usePlatform.getUsedAmount() - successCount);
+        usePlatform.setUsedAmount(usePlatform.getUsedAmount() + successCount);
+        platformService.updateById(usePlatform);
 
         //用户可用余额更新
         loginUser.setTotal(loginUser.getTotal() - successCount);

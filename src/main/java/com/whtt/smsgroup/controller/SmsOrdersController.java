@@ -25,7 +25,7 @@ public class SmsOrdersController {
     @PostMapping(value = "/test")
     public Object test(@RequestBody SmsOrders orders){
         orders.validateParams();
-        return ordersService.onOrder(orders);
+        return ordersService.addOrder(orders);
     }
 
 }

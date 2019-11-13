@@ -5,6 +5,7 @@ import com.whtt.smsgroup.entity.pojo.SmsMenu;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * <p>
@@ -15,6 +16,8 @@ import java.util.Collection;
  * @since 2019-10-31
  */
 public interface SmsMenuService extends IService<SmsMenu> {
+
+    List<String> getPermissionByRoleNames(List<String> roleNameList);
 
     //根据用户id获取用户的菜单列表
     Collection<SmsMenu> getUserMenu(@Param("userId") Integer userId);

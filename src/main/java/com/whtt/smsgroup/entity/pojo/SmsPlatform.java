@@ -1,13 +1,14 @@
 package com.whtt.smsgroup.entity.pojo;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -15,7 +16,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author wbh
- * @since 2019-11-01
+ * @since 2019-11-02
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -25,8 +26,8 @@ public class SmsPlatform extends Model<SmsPlatform> {
 
     private static final long serialVersionUID=1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    @TableId(value = "iid", type = IdType.AUTO)
+    private Integer iid;
 
     /**
      * 平台id用于识别使用哪个平台(1腾讯，1阿里)
@@ -53,6 +54,11 @@ public class SmsPlatform extends Model<SmsPlatform> {
      */
     private Integer usedAmount;
 
+    /**
+     * 是否为默认通道,1是,0不是
+     */
+    private Integer defaultUse;
+
 
     public static final String ID = "id";
 
@@ -66,9 +72,11 @@ public class SmsPlatform extends Model<SmsPlatform> {
 
     public static final String USED_AMOUNT = "used_amount";
 
+    public static final String DEFAULT_USE = "default_use";
+
     @Override
     protected Serializable pkVal() {
-        return this.id;
+        return this.iid;
     }
 
 }

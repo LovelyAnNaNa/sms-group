@@ -24,7 +24,7 @@ import java.io.PrintWriter;
 @Slf4j
 public class CustomAuthenticationLoginHandler implements AuthenticationSuccessHandler, AuthenticationFailureHandler {
 
-    //处理用户登录成功的操作
+    //处理用户登录失败的操作
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         response.setContentType("application/json;charset=UTF-8");
@@ -44,11 +44,11 @@ public class CustomAuthenticationLoginHandler implements AuthenticationSuccessHa
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         log.info("用户{}登录系统",authentication);
-//        response.setContentType("application/json;charset=UTF-8");
-//        PrintWriter writer = response.getWriter();
-//        CommonResult<Object> result = CommonResult.success();
-//        writer.write(JSON.toJSONString(result));
-        //自动跳转页面
-        response.sendRedirect("/smsUser/home");
+        response.setContentType("application/json;charset=UTF-8");
+        PrintWriter writer = response.getWriter();
+        CommonResult<Object> result = CommonResult.success("登录成功");
+        writer.write(JSON.toJSONString(result));
+        //自动跳转页面0
+//        response.sendRedirect("/smsUser/home");
     }
 }

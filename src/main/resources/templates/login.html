@@ -75,13 +75,11 @@
 								<div class="zyl_lofo_vercode zylVerCode" onclick="zylVerCode()"></div>
 							</div>
 						</div>
-						<label><input type="checkbox" name="remember-me"/>自动登录</label>
 					</div>
 					<div class="layui-col-sm12 layui-col-md12">
-						<input type="submit" value="提交">
 						<button class="layui-btn layui-btn-fluid" lay-submit="submit" lay-filter="demo1" id="submit">立即登录</button>
 					</div>
-					<p><a href="/sysUser/registerPage" style="float: left;">注册</a></p>
+					<p><a href="/smsUser/registerPage" style="float: left;">注册</a></p>
 					<p><a href="forget-password.html"style="float: right;">忘记密码</a></p>
 				</form>
 			</div>
@@ -132,7 +130,7 @@
 						data: $(data.form).serialize(),
 						success: function (res) {
 							if (res.code === 200) {
-								window.location.href="/smsUser/home";
+								window.location.href="/smsUser/index";
 							}else {
 								layer.msg(res.msg);
 							}

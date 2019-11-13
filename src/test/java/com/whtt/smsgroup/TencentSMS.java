@@ -1,5 +1,7 @@
 package com.whtt.smsgroup;
 
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -16,6 +18,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -197,6 +200,24 @@ public class TencentSMS {
         if(total == null){
 
         }
+        //解析套餐包信息
+        JSONArray dataJson = resultJson.getJSONArray("data");
+        //获取当前时间
+        Date nowTime = new Date();
+        String timeFormat = "yyyy-MM-dd HH:mm:ss";
+        dataJson.forEach(e -> {
+            //获取每个套餐包信息
+            JSONObject data = (JSONObject) e;
+            //获取套餐包到期时间
+            String toTimeStr = data.getString("to_time");
+            DateTime toTime = DateUtil.parse(toTimeStr, timeFormat);
+            //如果套餐包信息未过期
+            if(nowTime.before(toTime)){
+                System.out.println("jsonData.getString(\"amount\") = " + data.getString("amount"));
+                System.out.println("jsonData.getString(\"used\") = " + data.getString("used"));
+            }
+        });
+
     }
     
     @Test

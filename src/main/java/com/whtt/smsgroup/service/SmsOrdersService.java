@@ -14,5 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface SmsOrdersService extends IService<SmsOrders> {
 
-    CommonResult onOrder(SmsOrders newOrder);
+    CommonResult addOrder(SmsOrders newOrder);
 }

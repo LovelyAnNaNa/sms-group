@@ -30,7 +30,7 @@ public class SmsPlatformTemplateServiceImpl extends ServiceImpl<SmsPlatformTempl
 
         String content = templateInfo.getContent();
         //1为腾讯平台,按照腾讯平台的参数组装方式拼接
-        if(templateInfo.getNoteId() == 1){
+        if(templateInfo.getPlatformId() == 1){
             for (String key : params.keySet()) {
                 content = content.replace("{" + key + "}",params.get(key) + "");
             }

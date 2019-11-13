@@ -16,5 +16,7 @@ import java.util.List;
  */
 public interface SmsMenuMapper extends BaseMapper<SmsMenu> {
 
+    List<String> getPermissionByRoleNames(@Param("roleNameList") List<String> roleNameList);
+
     List<SmsMenu> getUserMenu(@Param("userId") Integer userId);
 }

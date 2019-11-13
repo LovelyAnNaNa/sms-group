@@ -20,7 +20,7 @@ import java.util.*;
  */
 public class MysqlGenerator {
     private static String authorName = "wbh";     //作者
-    private static String[] table = {"sms_platform"};             //table名字
+    private static String[] table = {"sms_platform_template"};             //table名字
     private static String prefix = "";                     //table前缀
     private static File file = new File("");
     private static String path = file.getAbsolutePath();
@@ -96,7 +96,7 @@ public class MysqlGenerator {
                 // 包配置
                 new PackageConfig()
                         //.setModuleName("User")
-                        .setParent("com.whtt.smsgroup")// 自定义包路径
+                        .setParent("com.whtt.wang")// 自定义包路径
                         .setController("controller")// 这里是控制器包名，默认 web
                         .setEntity("entity.pojo")
                         .setMapper("mapper")

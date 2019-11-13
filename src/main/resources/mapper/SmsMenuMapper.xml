@@ -38,6 +38,22 @@
         </where>
 
     </select>
+    <select id="getPermissionByRoleNames" resultType="java.lang.String">
+        select menu.permission
+        from sms_menu menu
+        left join sms_role_menu role_menu on menu.id = role_menu.menu_id
+        left join sms_role role on role.id = role_menu.role_id
+        <where>
+            <if test="roleNameList != null">
+                and role.role_name in
+                <foreach collection="roleNameList" open="(" separator="," close=")" item="roleName">
+                    #{roleName}
+                </foreach>
+            </if>
+
+        </where>
+
+    </select>
 
     <!--  获取用户的菜单列表  -->
     <sql id="Base_Column_List">

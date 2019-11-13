@@ -19,6 +19,12 @@ import java.util.Map;
 public class SmsOrderBase<T> extends Model {
 
     /**
+     * 短信签名内容
+     */
+    @TableField(exist = false)
+    private String signName;
+
+    /**
      * 模板参数
      * 腾讯key为数字
      * 阿里key为变量名

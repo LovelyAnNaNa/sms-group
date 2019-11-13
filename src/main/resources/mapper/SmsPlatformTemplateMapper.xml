@@ -5,7 +5,7 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.whtt.smsgroup.entity.pojo.SmsPlatformTemplate">
         <id column="id" property="id" />
-        <result column="note_id" property="noteId" />
+        <result column="platform_id" property="platformId" />
         <result column="template_id" property="templateId" />
         <result column="enable" property="enable" />
         <result column="content" property="content" />
@@ -17,7 +17,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, note_id, template_id, enable, content, create_time, create_id, update_time, update_id
+        id, platform_id, template_id, enable, content, create_time, create_id, update_time, update_id
     </sql>
 
 </mapper>

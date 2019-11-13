@@ -1,7 +1,5 @@
 package com.whtt.smsgroup.security;
 
-import com.whtt.smsgroup.entity.pojo.SmsMenu;
-import com.whtt.smsgroup.entity.pojo.SmsRoleMenu;
 import com.whtt.smsgroup.service.SmsMenuService;
 import com.whtt.smsgroup.service.SmsRoleMenuService;
 import com.whtt.smsgroup.service.SmsRoleService;
@@ -13,6 +11,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -38,19 +37,14 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
         //获取loadUserByUsername()注入的角色
         Collection<GrantedAuthority> authorities = user.getAuthorities();
 
-        //便利用户所有角色
-        for (GrantedAuthority auth : authorities) {
-            String roleName = auth.getAuthority();
-            Integer roleId = roleService.getByName(roleName).getId();
+        //用户角色集合
+        ArrayList<String> roleNameList = new ArrayList<>(authorities.size());
+        authorities.forEach(a -> roleNameList.add(a.getAuthority()));
+        //获取权限列表
+        List<String> permissionList = menuService.getPermissionByRoleNames(roleNameList);
 
-            //得到角色所有的权限
-            List<SmsRoleMenu> roleMenuList = roleMenuService.listByRoleId(roleId);
-            for (SmsRoleMenu roleMenu : roleMenuList) {
-                SmsMenu menu = menuService.getById(roleMenu.getMenuId());
-                if(menu.getPermission().equals(targetPermission) ){
-                    return true;
-                }
-            }
+        if (permissionList.contains(targetPermission)) {
+            return true;
         }
         return false;
     }

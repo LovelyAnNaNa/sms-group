@@ -12,7 +12,7 @@ public enum ResultCode implements IErrorCode {
     FAILED(500, "操作失败"),
     VALIDATE_FAILED(404, "Parameter check failed"),
     UNAUTHORIZED(401, "Token is not currently logged in or expired"),
-    FORBIDDEN(403, "You don't have permission"),
+    FORBIDDEN(403, "您没有该权限"),
     UNBOUNDED(600, "Wechat is not bound"),
 
     //1000~1500为用户方面异常
