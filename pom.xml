@@ -130,7 +130,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.49</version>
+            <version>1.2.83</version>
         </dependency>
 
         <!--MyBatis分页插件 与mybatisplus版本关联,mybatisplus版本升级,pagehelper版本也需升级 -->
